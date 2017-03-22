@@ -1,11 +1,17 @@
-Section s;
+Land land;
 
 void setup() {
-  size(650, 300);
-  s = new Section();
-  background(0);
+  size(600, 400, P3D);
+  land = new Land();
+  stroke(0);
 }
 
 void draw() {
-  s.render();
+  background(0);
+  pushMatrix();
+  translate(0, 0, -160);
+  rotateX(PI/3);
+  land.render();
+  popMatrix();
+  land.calculate_peaks();
 }
