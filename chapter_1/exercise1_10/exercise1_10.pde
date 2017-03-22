@@ -9,7 +9,7 @@ void setup() {
 void draw() {
   background(0);
   pushMatrix();
-  translate(0, -50, -160);
+  translate(0, 75, -160);
   rotateX(PI/3);
   land.render();
   popMatrix();
