@@ -20,12 +20,12 @@ class Land
   }
 
   void calculate_peaks() {
-    zoff -= 0.05;
+    zoff -= 0.03;
     yoff = zoff;
     for (int j = 0; j < land_width; j++) {
       xoff = 0;
       for (int i = 0; i < land_height; i++) {
-        peaks[j][i] = map(noise(xoff, yoff), 0, 1, -125, 125);
+        peaks[j][i] = map(noise(xoff, yoff), 0, 1, -160, 160);
         xoff += noise_increment;
       }
       yoff += noise_increment;
