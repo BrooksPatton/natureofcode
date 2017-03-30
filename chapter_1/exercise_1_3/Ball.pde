@@ -2,6 +2,7 @@ class Ball
 {
   PVector location, velocity;
   Box box;
+  int red, green, blue;
 
   Ball(PVector location_, PVector velocity_, Box box_)
   {
@@ -11,12 +12,15 @@ class Ball
     location.x = box.location.x;
     location.y = box.location.y;
     location.z = box.location.z;
+    red = int(random(0, 256));
+    green = int(random(0, 256));
+    blue = int(random(0, 256));
   }
 
   void render()
   {
     pushMatrix();
-    fill(200);
+    fill(red, green, blue);
     noStroke();
     lights();
     translate(location.x, location.y, location.z);
