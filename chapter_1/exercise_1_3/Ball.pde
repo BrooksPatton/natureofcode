@@ -8,6 +8,9 @@ class Ball
     location = location_;
     velocity = velocity_;
     box = box_;
+    location.x = box.location.x;
+    location.y = box.location.y;
+    location.z = box.location.z;
   }
 
   void render()
@@ -17,42 +20,42 @@ class Ball
     noStroke();
     lights();
     translate(location.x, location.y, location.z);
-    sphere(50);
+    sphere(10);
     popMatrix();
   }
   
   void move()
   {
-    if(location.x > box.location.x)
+    if(location.x < box.location.x - (box.size.x / 2))
     {
-      location.x = box.location.x;
+      location.x = box.location.x - (box.size.x / 2);
       velocity.x = -velocity.x;
     }
-    else if(location.x < 0)
+    else if(location.x > box.location.x + (box.size.x / 2))
     {
-      location.x = 0;
+      location.x = box.location.x + (box.size.x / 2);
       velocity.x = -velocity.x;
     }
     
-    if(location.y > box.location.y)
+    if(location.y < box.location.y - (box.size.y / 2))
     {
-      location.y = box.location.y;
+      location.y = box.location.y - (box.size.y / 2);
       velocity.y = -velocity.y;
     }
-    else if(location.y < 0)
+    else if(location.y > box.location.y + (box.size.y / 2))
     {
-      location.y = 0;
+      location.y = box.location.y + (box.size.y / 2);
       velocity.y = -velocity.y;
     }
     
-    if(location.z < -box.size.z + box.location.z)
+    if(location.z < box.location.z - (box.size.z / 2))
     {
-      location.z = -box.size.z + box.location.z;
+      location.z = box.location.z - (box.size.z / 2);
       velocity.z = -velocity.z;
     }
-    else if(location.z > 0 + box.location.z)
+    else if(location.z > box.location.z + (box.size.z / 2))
     {
-      location.z = 0 + box.location.z;
+      location.z = box.location.z + (box.size.z / 2);
       velocity.z = -velocity.z;
     }
     

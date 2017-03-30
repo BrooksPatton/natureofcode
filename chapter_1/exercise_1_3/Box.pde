@@ -14,7 +14,6 @@ class Box
     translate(location.x, location.y, location.z);
     noFill();
     stroke(0);
-    //rotateY(0.5);
     box(size.x, size.y, size.z);
     popMatrix();
   }
