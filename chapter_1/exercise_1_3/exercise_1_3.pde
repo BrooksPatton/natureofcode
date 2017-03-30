@@ -4,12 +4,15 @@ ArrayList<Ball> balls = new ArrayList<Ball>();
 
 void setup()
 {
+  int numBalls = 500;
+  
   size(600, 400, P3D);
   background(255);
   boxLocation = new PVector(width / 2, height / 2, -200);
   boxSize = new PVector(100, 100, 500);
   box = new Box(boxLocation, boxSize);
-  for (int i = 0; i < 5; i++)
+  
+  for (int i = 0; i < numBalls; i++)
   {
     float rx = random(-5, 5);
     float ry = random(-5, 5);
