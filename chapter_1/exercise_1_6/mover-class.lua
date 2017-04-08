@@ -17,7 +17,6 @@ function Mover.new()
     m.speedLimit = 60
     m.circle = Circle.new(location, velocity, r)
     m.xoff = 0
-    m.yoff = 0
 
     return m
 end
@@ -29,11 +28,17 @@ end
 
 function Mover:update(dt)
     local acceleration = PVector.newRandom()
-    acceleration:multi(2)
+    acceleration:multi(self:nextNoise() * 5)
 
     self.circle.velocity:add(acceleration, dt)
     self.circle.velocity:limit(self.speedLimit)
     self.circle.location:add(self.circle.velocity, 1)
+end
+
+function Mover:nextNoise()
+    local r = love.math.noise(self.xoff)
+    self.xoff = self.xoff + 0.01
+    return r
 end
 
 return Mover
