@@ -3,7 +3,7 @@ local Mover = require('./mover-class')
 function love.load()
     width = love.graphics.getWidth()
     height = love.graphics.getHeight()
-    mover = Mover.new()
+    mover = Mover.new(500)
 end
 
 function love.draw()
