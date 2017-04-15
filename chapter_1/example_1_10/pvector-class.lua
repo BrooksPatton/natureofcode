@@ -30,25 +30,22 @@ function PVector:mag()
     return math.sqrt(self.x * self.x + self.y * self.y)
 end
 
+function PVector:magSq()
+    return self.x * self.x + self.y * self.y
+end
+
 function PVector:normalize()
     local magnitude = self:mag()
 
-    if not magnitude == 0 then
+    if not magnitude == 0 and not magnitude == 1 then
         self:div(magnitude)
     end
 end
 
-function PVector:limit(num)
-    if self.x > num then
-        self.x = num
-    elseif self.x < num * -1 then
-        self.x = num * -1
-    end
-
-    if self.y > num then
-        self.y = num
-    elseif self.y < num * -1 then
-        self.y = num * -1
+function PVector:limit(max)
+    if self:magSq() > max * max then
+        self:normalize()
+        self:mult(max)
     end
 end
 

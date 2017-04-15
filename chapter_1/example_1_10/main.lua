@@ -19,25 +19,20 @@ function love.update(dt)
     addCircle()
 
     for i, circle in ipairs(circles) do
-        local mouseLocation = getMouseLocation()
-        local direction = PVector.sub(mouseLocation, circle.location)
-        direction:mult(dt / 60)
+        local x, y = love.mouse.getPosition()
+        local direction = PVector.sub(PVector.new(x, y), circle.location)
+        -- direction:mult(dt * 30)
         direction:normalize()
+        direction:mult(0.5)
 
         circle.velocity:add(direction)
         circle.velocity:limit(circle.topSpeed)
         circle.location:add(circle.velocity)
 
-        if circle:shouldDie() then
-            table.remove(circles, i)
-        end
+        -- if circle:shouldDie() then
+        --     table.remove(circles, i)
+        -- end
     end
-end
-
-function getMouseLocation()
-    local x, y = love.mouse.getPosition()
-
-    return PVector.new(x, y)
 end
 
 function getOffscreenLocation()
@@ -45,16 +40,16 @@ function getOffscreenLocation()
     local x, y
 
     if r == 1 then
-        y = -50
+        y = -50.0
         x = love.math.random(0, width)
     elseif r == 2 then
-        x = width + 50
+        x = width + 50.0
         y = love.math.random(0, height)
     elseif r == 3 then
-        y = height + 50
+        y = height + 50.0
         x = love.math.random(0, width)
     else
-        x = -50
+        x = -50.0
         y = love.math.random(0, height)
     end
 
@@ -62,7 +57,7 @@ function getOffscreenLocation()
 end
 
 function addCircle()
-    local topspeed = love.math.random(1, 3)
+    local topspeed = 0.025
     local location = getOffscreenLocation()
     local velocity = PVector.new(0, 0)
     local radius = love.math.random(1, 15)
