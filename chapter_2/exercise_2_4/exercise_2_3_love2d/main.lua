@@ -24,6 +24,10 @@ function love.draw()
 end
 
 function love.update(dt)
+  if dt > 0.029 then
+    dt = 0.029
+  end
+
     for i, mover in ipairs(movers) do
         local rightWind = Vector.new(mover.location.x * -0.02, 0)
 
