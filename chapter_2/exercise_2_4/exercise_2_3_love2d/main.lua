@@ -1,6 +1,8 @@
 local Vector = require('./vector')
 local Mover = require('./mover-class')
 local movers, gravity, wind
+local frictionMag
+local paused = true
 
 function love.load()
     width = love.graphics.getWidth()
@@ -14,7 +16,10 @@ function love.load()
     end
 
     gravity = Vector.new(0, 15)
-    wind = Vector.new(15, 0)
+    wind = Vector.new(5, 0)
+    local normal = 1
+    local coefficient = 0.01
+    frictionMag = normal * coefficient
 end
 
 function love.draw()
@@ -24,17 +29,32 @@ function love.draw()
 end
 
 function love.update(dt)
-  if dt > 0.029 then
-    dt = 0.029
-  end
+  if not paused then
+    if dt > 0.029 then
+      dt = 0.029
+    end
 
     for i, mover in ipairs(movers) do
-        local rightWind = Vector.new(mover.location.x * -0.02, 0)
+      local rightWind = Vector.new(mover.location.x * -0.02, 0)
+      local mass = mover.mass
+      local g = gravity * mass
+      local friction = mover.velocity * -1
 
-        mover:applyForce(gravity * dt)
-        mover:applyForce(wind * dt)
-        mover:applyForce(rightWind * dt)
-        mover:update()
-        mover:checkEdges()
+      friction = friction:normalized()
+      friction = friction * frictionMag
+
+      mover:applyForce(g * dt)
+      mover:applyForce(wind * dt)
+      --mover:applyForce(rightWind * dt)
+      mover:applyForce(friction)
+      mover:update()
+      mover:checkEdges()
     end
+  end
+end
+
+function love.keypressed(key, scancode, isrepeat)
+  if scancode == 'space' then
+    paused = false
+  end
 end
