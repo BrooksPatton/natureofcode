@@ -4,20 +4,19 @@ local Vector = require('./vector')
 local Mover = {}
 Mover.__index = Mover
 
-function Mover.new(location, mass)
+function Mover.new(location, color)
   local t = {}
   setmetatable(t, Mover)
 
   t.location = location
-  t.mass = mass
   t.velocity = Vector.new(0, 0)
   t.acceleration = Vector.new(0, 0)
-  t.radius = mass
-  t.color = {200, 200, 200}
+  t.radius = 3
+  t.color = color
   t.angle = 0
   t.aAcceleration = 0
   t.aVecolity = 0
-  t.offset = 75
+  t.offset = 0
   
   t:calculateOffsets()
   return t
@@ -26,8 +25,6 @@ end
 function Mover:draw()
   love.graphics.setColor(self.color)
   love.graphics.circle('fill', self.location.x + self.xOff, self.location.y + self.yOff, self.radius)
-
-  love.graphics.line(self.location.x + self.xOff, self.location.y + self.yOff, width/2, height/2)
 end
 
 function Mover:update(dt)
@@ -35,7 +32,8 @@ function Mover:update(dt)
   self.location = self.location + self.velocity
   self.acceleration = self.acceleration * 0
 
-  self.angle = self.angle + 1 * dt
+  self.angle = self.angle + 2 * dt
+  self.offset = self.offset + 7 * dt
   self:calculateOffsets()
 end
 
