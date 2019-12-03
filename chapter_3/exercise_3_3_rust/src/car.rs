@@ -13,23 +13,27 @@ pub struct Car {
 	pub mesh: graphics::Mesh,
 	velocity: Vector2<f32>,
 	acceleration: Vector2<f32>,
+	pub rotation: f32,
 }
 
 impl NatureOfCode for Car {
 	fn new(x: f32, y: f32, mass: f32, context: &mut Context) -> Car {
 		let color = random_dark_color();
+		let width = 50.0;
+		let height = 15.0;
+		let hood = 15.0;
 		let mesh = graphics::MeshBuilder::new()
 			.rectangle(
 				graphics::DrawMode::fill(),
-				graphics::Rect::new(0.0, 0.0, 50.0, 15.0),
+				graphics::Rect::new(-width / 2.0, -height / 2.0, width / 2.0, height / 2.0),
 				color,
 			)
 			.polyline(
 				graphics::DrawMode::fill(),
 				&[
-					Point2::new(50.0, 0.0),
-					Point2::new(65.0, 7.5),
-					Point2::new(50.0, 15.0),
+					Point2::new(width / 2.0, -height / 2.0),
+					Point2::new(width / 2.0 + hood, 0.0),
+					Point2::new(width / 2.0, height / 2.0),
 				],
 				color,
 			)
@@ -42,6 +46,7 @@ impl NatureOfCode for Car {
 			mesh,
 			velocity: Vector2::new(0.0, 0.0),
 			acceleration: Vector2::new(0.0, 0.0),
+			rotation: 0.0,
 		}
 	}
 
@@ -49,6 +54,7 @@ impl NatureOfCode for Car {
 		self.velocity += self.acceleration;
 		self.location += self.velocity * delta_time;
 		self.acceleration *= 0.0;
+		self.rotation = self.velocity.y.atan2(self.velocity.x);
 	}
 
 	fn apply_force(&mut self, force: Vector2<f32>) {
