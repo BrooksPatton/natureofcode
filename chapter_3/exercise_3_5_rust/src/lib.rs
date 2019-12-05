@@ -10,6 +10,7 @@ use bbggez::{rand, rand::prelude::*};
 pub struct Game {
 	location: Vector2<f32>,
 	rotation: f32,
+	velocity: Vector2<f32>,
 }
 
 impl Game {
@@ -19,6 +20,7 @@ impl Game {
 		Game {
 			location: Vector2::new(arena_width / 2.0, arena_height / 2.0),
 			rotation: 0.0,
+			velocity: Vector2::new(0.0, 0.0),
 		}
 	}
 
@@ -37,11 +39,14 @@ impl EventHandler for Game {
 		let arena_size = graphics::drawable_size(context);
 		self.handle_window_size_change(context, arena_size)?;
 
+		self.location += self.velocity * delta_time;
+
 		Ok(())
 	}
 
 	fn draw(&mut self, context: &mut Context) -> GameResult<()> {
 		graphics::clear(context, graphics::BLACK);
+		let arena_size = graphics::drawable_size(context);
 
 		let ship = graphics::MeshBuilder::new()
 			.polyline(
@@ -59,7 +64,7 @@ impl EventHandler for Game {
 			context,
 			&ship,
 			graphics::DrawParam::new()
-				.dest(Point2::from(self.location))
+				.dest(Point2::new(self.location.x, self.location.y))
 				.rotation(self.rotation),
 		)?;
 
@@ -76,8 +81,12 @@ impl EventHandler for Game {
 		let delta_time = timer::delta(context).as_secs_f32();
 
 		match keycode {
-			KeyCode::Left => self.rotation += -50.0 * delta_time,
-			KeyCode::Right => self.rotation += 50.0 * delta_time,
+			KeyCode::Left => self.rotation += -0.1,
+			KeyCode::Right => self.rotation += 0.1,
+			KeyCode::Z => {
+				self.velocity +=
+					Vector2::new(self.rotation.cos() * 10.0, self.rotation.sin() * 10.0)
+			}
 			_ => (),
 		}
 	}
